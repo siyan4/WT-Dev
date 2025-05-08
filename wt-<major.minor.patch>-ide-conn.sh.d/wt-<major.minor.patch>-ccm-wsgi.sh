@@ -27,8 +27,8 @@ sed -i \
     -e 's|^\(SUBDIRS(isapi.*\))$|\1 wsgi)|g' \
     wt-${WTV}-ccm-wsgi/src/CMakeLists.txt
 sed -i \
-    -e 's|^namespace http {$|namespace ws {|g' \
-    -e 's|^  friend class http::server::ProxyReply;$|  friend class ws::server::ProxyReply;|g' \
+    -e '/^namespace Wt {$/i namespace ws {\n  namespace server {\n    class ProxyReply;\n  }\n}\n' \
+    -e '/^  friend class http::server::ProxyReply;$/a \ \ friend class ws::server::ProxyReply;' \
     wt-${WTV}-ccm-wsgi/src/web/WebController.h
 mkdir -p wt-${WTV}-ccm-wsgi/build/{CCMake-Debug,CCMake-MinSizeRel,CCMake-Profile,CCMake-Release,CCMake-RelWithDebInfo}
 ccmake -B wt-${WTV}-ccm-wsgi/build/CCMake-Debug -S wt-${WTV}-ccm-wsgi \
